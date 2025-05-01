@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461220834545",
+    "project_id": "moneymemos-6007d",
+    "storage_bucket": "moneymemos-6007d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461220834545:android:c578295efc9da5a2390d50",
+        "android_client_info": {
+          "package_name": "com.fintech.moneymemos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiBTwwfpUhd6Evtki-kpkmwoDVS8RzZwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

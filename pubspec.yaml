@@ -1,0 +1,58 @@
+name: moneymemos
+description: "MoneyMemos - precise information about stcok"
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  flutter_bloc: ^9.0.0
+  get_it: ^8.0.3
+  injectable: ^2.5.0
+  dio: ^5.8.0+1
+  retrofit: ^4.4.2
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  dartz: ^0.10.1
+  equatable: ^2.0.7
+  cached_network_image: ^3.4.1
+  google_sign_in: ^6.0.2
+  firebase_core: ^3.2.0
+  firebase_auth: ^5.1.2
+  firebase_messaging: ^15.2.2
+  firebase_crashlytics: ^4.0.3
+  firebase_analytics: ^11.2.0
+  firebase_performance: ^0.10.0+3
+  firebase_performance_dio: ^0.7.1
+  flutter_local_notifications: ^19.0.0
+  firebase_remote_config: ^5.0.3
+  network_monitor_cp: ^0.0.7
+  logger: ^2.5.0
+  go_router: ^15.1.1
+  shared_preferences: ^2.5.3
+  synchronized: ^3.3.0+3
+  google_fonts: ^6.2.1
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.15
+  injectable_generator: ^2.7.0
+  freezed: ^2.5.8
+  json_serializable: ^6.9.4
+  retrofit_generator: ^9.1.9
+
+flutter:
+
+  uses-material-design: true
