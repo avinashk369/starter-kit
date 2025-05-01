@@ -15,7 +15,7 @@ To quickly integrate the starter kit into your new Flutter project, follow these
 The merge-tool.sh script is located under the ./scripts/ directory in the starter kit.
 3. Run the Merge Script
 # Make the script executable
-chmod +x ./scripts/merge-tool.sh
+chmod +x merge-tool.sh
 
 # Run the merge tool
 ./merge-tool.sh
