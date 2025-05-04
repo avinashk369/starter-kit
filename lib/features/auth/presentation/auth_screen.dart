@@ -6,6 +6,7 @@ import 'package:moneymemos/core/const/pref_const.dart';
 import 'package:moneymemos/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:moneymemos/routes/route_names.dart';
 import 'package:moneymemos/utils/prefrence_utils.dart';
+import 'package:moneymemos/widgets/loader_widget.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -16,7 +17,7 @@ class AuthScreen extends StatelessWidget {
       create: (_) => GetIt.I<AuthBloc>(),
       child: Scaffold(
         body: Center(
-          child: BlocListener<AuthBloc, AuthState>(
+          child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               state.mapOrNull(
                 loggedIn: (value) async {
@@ -27,15 +28,16 @@ class AuthScreen extends StatelessWidget {
                 },
               );
             },
-            child: Builder(builder: (context) {
-              return ElevatedButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(GoogleSignin());
-                  // context.read<AuthBloc>().add(Logout());
-                },
-                child: const Text('Sign in with Google'),
-              );
-            }),
+            builder: (context, state) => state.maybeMap(
+                loading: (_) => const LoaderWidget(),
+                orElse: () => Builder(builder: (context) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(GoogleSignin());
+                        },
+                        child: const Text('Sign in with Google'),
+                      );
+                    })),
           ),
         ),
       ),

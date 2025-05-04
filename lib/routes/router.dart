@@ -41,6 +41,7 @@ final GoRouter router = GoRouter(
           routes: [
             GoRoute(
               path: route,
+              name: route,
               builder: (context, state) => _dashboardScreens[route]!,
             ),
           ],
