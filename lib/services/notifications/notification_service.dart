@@ -34,7 +34,7 @@ class NotificationService {
 
   Future<void> _updateToken(String token) async {
     try {
-      print('FCM token: $token');
+      // print('FCM token: $token');
 
       if (token != _currentToken) {
         // storage.setValue(_tokenKey, token);
@@ -85,7 +85,7 @@ class NotificationService {
   }
 
   Future<void> _requestPermission() async {
-    final settings = await _messaging.requestPermission(
+    await _messaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
@@ -95,7 +95,7 @@ class NotificationService {
       criticalAlert: false,
     );
 
-    print('Permission status: ${settings.authorizationStatus}');
+    // print('Permission status: ${settings.authorizationStatus}');
   }
 
   Future<void> _setupMessageHandlers() async {
@@ -115,7 +115,7 @@ class NotificationService {
   }
 
   void _handleBackgroundMessage(RemoteMessage message) {
-    print("background message ${message.data.toString()}");
+    // print("background message ${message.data.toString()}");
     if (message.data['type'] == 'chat') {
       // open chat screen
     }

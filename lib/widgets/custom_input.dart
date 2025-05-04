@@ -35,7 +35,7 @@ class CustomInput extends StatelessWidget {
       onSaved: (value) => onSaved?.call(value),
       validator: (value) => validator?.call(value),
       cursorHeight: 25,
-      cursorColor: AppColors.subtitleColor,
+      cursorColor: AppColors.buttonText,
       readOnly: readOnly,
       maxLength: maxLength,
       enableInteractiveSelection: false,
@@ -44,15 +44,15 @@ class CustomInput extends StatelessWidget {
       style: Theme.of(context).primaryTextTheme.displayMedium!.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: AppColors.black,
+            color: AppColors.darkBackground,
           ),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(top: 15),
         counter: Offstage(),
-        hintStyle: Theme.of(context).primaryTextTheme.displayMedium!.copyWith(
+        hintStyle: Theme.of(context).primaryTextTheme.displayMedium?.copyWith(
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: AppColors.subtitleColor,
+              color: AppColors.buttonText,
             ),
         border: InputBorder.none,
         errorStyle: const TextStyle(height: double.minPositive),

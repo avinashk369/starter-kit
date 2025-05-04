@@ -9,7 +9,7 @@ import 'package:moneymemos/money_memos.dart';
 import 'package:moneymemos/services/notifications/crashlytics_service.dart';
 import 'package:moneymemos/services/notifications/firebase_remote_config_service.dart';
 import 'package:moneymemos/services/notifications/notification_service.dart';
-import 'package:moneymemos/utils/custom_theme.dart';
+import 'package:moneymemos/utils/prefrence_utils.dart';
 import 'package:moneymemos/widgets/app_error_widget.dart';
 import 'package:network_monitor_cp/network/network_monitor.dart';
 
@@ -19,7 +19,7 @@ void main() async {
   await Future.wait([
     AppManager.init(),
     GetIt.I.allReady(),
-    CustomTheme.init(),
+    PreferenceUtils.getInstance(),
     NetworkMonitor().initialize(),
     NotificationService.instance.initialize(),
     FirebaseRemoteConfigService().initialize(),

@@ -20,17 +20,17 @@ class AppErrorWidget extends StatelessWidget {
             Icon(
               isError ? Icons.error : Icons.warning,
               size: 100,
-              color: isError ? AppColors.red : Colors.amber,
+              color: isError ? AppColors.error : AppColors.warning,
             )
                 .margin(EdgeInsets.all(20))
-                .background(AppColors.bgColor)
+                .background(AppColors.darkBody)
                 .cornerRadius(BorderRadius.circular(100)),
             SizedBox(height: 48),
             Text(
               PlaceholderConst.errorWidget,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AppColors.white,
+                    color: AppColors.buttonText,
                   ),
             ),
             SizedBox(height: 16),
@@ -38,7 +38,7 @@ class AppErrorWidget extends StatelessWidget {
               error,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.descColor,
+                    color: AppColors.buttonText,
                   ),
             ),
           ],
