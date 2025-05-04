@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moneymemos/core/const/pref_const.dart';
+import 'package:moneymemos/core/const/svg_const.dart';
 import 'package:moneymemos/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:moneymemos/routes/route_names.dart';
 import 'package:moneymemos/utils/prefrence_utils.dart';
-import 'package:moneymemos/widgets/loader_widget.dart';
+import 'package:moneymemos/widgets/buttons/i_outline_button.dart';
+import 'package:moneymemos/widgets/pops/i_pop_button.dart';
+import 'package:moneymemos/widgets/svg_image.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -28,16 +31,22 @@ class AuthScreen extends StatelessWidget {
                 },
               );
             },
-            builder: (context, state) => state.maybeMap(
-                loading: (_) => const LoaderWidget(),
-                orElse: () => Builder(builder: (context) {
-                      return ElevatedButton(
-                        onPressed: () {
+            builder: (context, state) => Builder(builder: (context) {
+              return IPopButton(
+                child: IOutlineButton(
+                  onPressed: state is Loading
+                      ? null
+                      : () {
                           context.read<AuthBloc>().add(GoogleSignin());
                         },
-                        child: const Text('Sign in with Google'),
-                      );
-                    })),
+                  text: 'Sign in with Google',
+                  leadingIcon: SvgImage(
+                    source: SvgConst.googleLogo,
+                    sourceType: SvgSource.asset,
+                  ),
+                ),
+              );
+            }),
           ),
         ),
       ),

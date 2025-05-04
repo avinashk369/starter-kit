@@ -4,8 +4,8 @@ import 'package:moneymemos/widgets/pops/i_pop_button.dart';
 class IElevatedButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
-  final IconData? leadingIcon;
-  final IconData? trailingIcon;
+  final Widget? leadingIcon;
+  final Widget? trailingIcon;
   final EdgeInsets? padding;
   final TextStyle? textStyle;
 
@@ -35,22 +35,12 @@ class IElevatedButton extends StatelessWidget {
                 ),
               ),
               elevation: WidgetStateProperty.all(0),
-              backgroundColor: WidgetStateProperty.all(
-                Theme.of(context).colorScheme.primary,
-              ),
-              foregroundColor: WidgetStateProperty.all(
-                Theme.of(context).colorScheme.onPrimary,
-              ),
             ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (leadingIcon != null) ...[
-              Icon(
-                leadingIcon,
-                size: 20,
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
+              leadingIcon ?? const SizedBox.shrink(),
               const SizedBox(width: 8),
             ],
             Text(
@@ -64,11 +54,7 @@ class IElevatedButton extends StatelessWidget {
             ),
             if (trailingIcon != null) ...[
               const SizedBox(width: 8),
-              Icon(
-                trailingIcon,
-                size: 20,
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
+              trailingIcon ?? const SizedBox.shrink(),
             ],
           ],
         ),

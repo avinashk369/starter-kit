@@ -20,6 +20,10 @@ import 'package:moneymemos/features/auth/domain/repositories/auth_repository.dar
     as _i823;
 import 'package:moneymemos/features/auth/presentation/bloc/auth_bloc.dart'
     as _i434;
+import 'package:moneymemos/features/dashboard/data/repositories/dashboard_repository_impl.dart'
+    as _i719;
+import 'package:moneymemos/features/dashboard/domain/repositories/dashboard_repository.dart'
+    as _i786;
 import 'package:moneymemos/features/splash/presentation/bloc/splash_bloc.dart'
     as _i1061;
 import 'package:moneymemos/features/welcome/presentation/bloc/welcome_bloc.dart'
@@ -58,6 +62,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i361.Dio>(),
           baseUrl: gh<String>(instanceName: 'baseUrl'),
         ));
+    gh.factory<_i786.DashboardRepository>(
+        () => _i719.DashboardRepositoryImpl(apiClient: gh<_i820.ApiClient>()));
     return this;
   }
 }

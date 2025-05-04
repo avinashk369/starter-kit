@@ -23,7 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   /// google sign in
   Future<void> _googleSignIn(
       GoogleSignin event, Emitter<AuthState> emit) async {
-    emit(_Loading());
+    emit(Loading());
     try {
       final UserModel user = await authRepository.googleSignIn();
       emit(_LoggedIn(user: user));
@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   /// logout
   Future<void> _logout(Logout event, Emitter<AuthState> emit) async {
-    emit(_Loading());
+    emit(Loading());
     try {
       await authRepository.authLogout();
       emit(_LoggedOut(isLoggedOut: true));

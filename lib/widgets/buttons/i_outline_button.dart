@@ -4,8 +4,8 @@ import 'package:moneymemos/widgets/pops/i_pop_button.dart';
 class IOutlineButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
-  final IconData? leadingIcon;
-  final IconData? trailingIcon;
+  final Widget? leadingIcon;
+  final Widget? trailingIcon;
   final EdgeInsets? padding;
   final TextStyle? textStyle;
 
@@ -39,7 +39,7 @@ class IOutlineButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (leadingIcon != null) ...[
-              Icon(leadingIcon, size: 20),
+              leadingIcon ?? const SizedBox.shrink(),
               const SizedBox(width: 8),
             ],
             Text(
@@ -53,7 +53,7 @@ class IOutlineButton extends StatelessWidget {
             ),
             if (trailingIcon != null) ...[
               const SizedBox(width: 8),
-              Icon(trailingIcon, size: 20),
+              trailingIcon ?? const SizedBox.shrink(),
             ],
           ],
         ),

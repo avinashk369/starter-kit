@@ -81,7 +81,6 @@ class AppColors {
     onSecondary: Colors.white,
     error: error,
     onError: Colors.white,
-
     surface: surfaceLight,
     onSurface: titleActive,
     surfaceContainerHighest: surfaceVariantLight,

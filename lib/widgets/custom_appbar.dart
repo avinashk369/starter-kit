@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moneymemos/core/const/app_colors.dart';
 import 'package:moneymemos/core/const/string_constant.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -23,33 +22,25 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            title,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontSize: 26,
-                fontWeight: FontWeight.w600),
+          // Text(title),
+          Image(
+            image: AssetImage('assets/images/logo.png'),
+            fit: BoxFit.contain,
+            width: 100,
           ),
-          // Image(
-          //   image: AssetImage('assets/images/logo.png'),
-          //   fit: BoxFit.contain,
-          //   width: 100,
-          // ),
           subtitle
               ? Text(
                   StringsConstants.appName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: AppColors.darkBackground),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface),
                 )
               : const SizedBox.shrink(),
         ],
       ),
       centerTitle: false,
       titleSpacing: 8,
-      titleTextStyle:
-          Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 18),
+      titleTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSurface, fontSize: 20),
       // leadingWidth: 45,
       // leading: const Padding(
       //   padding: EdgeInsets.only(left: 8),

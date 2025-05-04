@@ -35,9 +35,7 @@ class DashboardScreen extends StatelessWidget with AppCloser {
           }
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Dashboard'),
-          ),
+          extendBody: true,
           body: Stack(
             children: [
               navigationShell,

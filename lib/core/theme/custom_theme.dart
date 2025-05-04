@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:moneymemos/core/const/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme {
   /// Get light theme data
   static ThemeData get lightTheme {
     return ThemeData(
       colorScheme: AppColors.lightColorScheme,
+      fontFamily: GoogleFonts.poppins().fontFamily,
       primaryColor: AppColors.primaryLightTheme, // Updated to primaryLightTheme
       scaffoldBackgroundColor: Colors.white,
       appBarTheme: const AppBarTheme(
@@ -17,6 +19,7 @@ class CustomTheme {
           fontWeight: FontWeight.w600,
         ),
         elevation: 0,
+        scrolledUnderElevation: 0,
       ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
@@ -184,6 +187,7 @@ class CustomTheme {
     return ThemeData(
       colorScheme: AppColors.darkColorScheme,
       primaryColor: AppColors.primaryDarkTheme, // Updated to primaryDarkTheme
+      fontFamily: GoogleFonts.poppins().fontFamily,
       scaffoldBackgroundColor: AppColors.darkBackground,
       appBarTheme: const AppBarTheme(
         color: AppColors.darkBackground,
@@ -194,6 +198,7 @@ class CustomTheme {
           fontWeight: FontWeight.w600,
         ),
         elevation: 0,
+        scrolledUnderElevation: 0,
       ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
