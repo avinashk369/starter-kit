@@ -27,10 +27,10 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
   static final _tabs = [
-    Tab(text: "All Coins"),
-    Tab(text: "My Watchlist"),
-    Tab(text: "Top Gainers"),
-    Tab(text: "Top Losers"),
+    Tab(text: "Tab 1"),
+    Tab(text: "Tab 2"),
+    Tab(text: "Tab 3"),
+    Tab(text: "Tab 4"),
   ];
 
   late List<Widget> _childerens;
