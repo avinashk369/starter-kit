@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
@@ -12,65 +14,125 @@ class AuthRepositoryImpl extends AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Future<UserModel> googleSignIn() async {
+    final googleSignIn = GoogleSignIn.instance;
+    final completer = Completer<UserModel>();
+    StreamSubscription<GoogleSignInAuthenticationEvent>? subscription;
+
     try {
-      User? user;
+      await googleSignIn.initialize();
 
-      final GoogleSignIn googleSignIn = GoogleSignIn();
+      subscription = googleSignIn.authenticationEvents.listen(
+        (event) async {
+          if (event is! GoogleSignInAuthenticationEventSignIn) return;
 
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+          try {
+            final idToken = event.user.authentication.idToken;
+            if (idToken == null) {
+              throw ServerError.withError(error: 'ID token is missing.');
+            }
 
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+            final credential = GoogleAuthProvider.credential(idToken: idToken);
+            final userCredential =
+                await FirebaseAuth.instance.signInWithCredential(credential);
+            final user = userCredential.user;
 
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-        try {
-          final UserCredential? userCredential = await _signInWithCredential(
-            credential,
-          );
+            if (user == null) {
+              throw ServerError.withError(error: 'Firebase user is null.');
+            }
 
-          user = userCredential?.user;
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            throw ServerError.withError(
-              error: "The account already exists with a different credential.",
+            completer.complete(
+              UserModel()
+                ..token = await user.getIdToken() ?? ''
+                ..name = user.displayName ?? ''
+                ..imageUrl = user.photoURL ?? ''
+                ..email = user.email ?? '',
             );
-          } else if (e.code == 'invalid-credential') {
-            throw ServerError.withError(
-              error: "Error occurred while accessing credentials. Try again.",
+          } on FirebaseAuthException catch (e) {
+            throw _mapFirebaseAuthException(e);
+          } catch (e) {
+            throw ServerError.withError(error: 'Firebase sign-in failed: $e');
+          }
+        },
+        onError: (error, stackTrace) {
+          if (!completer.isCompleted) {
+            completer.completeError(_mapAuthenticationError(error), stackTrace);
+          }
+        },
+        onDone: () {
+          if (!completer.isCompleted) {
+            completer.completeError(
+              ServerError.withError(error: 'Sign-in process terminated.'),
             );
           }
-        } catch (e) {
-          throw ServerError.withError(
-            error: "Error occurred using Google Sign-In. Try again.",
-          );
-        }
-      }
+        },
+      );
 
-      return UserModel()..id = user?.email ?? '';
+      // Use signInWithGoogle for interactive sign-in instead of lightweight authentication
+      await googleSignIn.attemptLightweightAuthentication();
+
+      return await completer.future;
     } on PlatformException catch (e) {
-      if (e.code == 'sign_in_failed') {
-        throw ServerError.withError(
-          error: "Sign-in failed.",
-        );
-      } else {
-        throw ServerError.withError(
-          error: "An unknown error occurred. Try again.",
-        );
-      }
-    } catch (error) {
-      throw ServerError.withError(error: error);
+      throw _mapPlatformException(e);
+    } catch (e, _) {
+      throw ServerError.withError(error: 'Unexpected error during sign-in: $e');
+    } finally {
+      await subscription?.cancel();
     }
+  }
+
+  // Helper function to map FirebaseAuthException to ServerError
+  ServerError _mapFirebaseAuthException(FirebaseAuthException e) {
+    return switch (e.code) {
+      'account-exists-with-different-credential' => ServerError.withError(
+          error: 'Account already exists with a different credential.',
+        ),
+      'invalid-credential' => ServerError.withError(
+          error: 'Invalid credentials. Please try again.',
+        ),
+      _ => ServerError.withError(
+          error: 'Firebase authentication error: ${e.message}',
+        ),
+    };
+  }
+
+  // Helper function to map authentication errors
+  ServerError _mapAuthenticationError(Object error) {
+    if (error is PlatformException) {
+      return switch (error.code) {
+        'sign_in_canceled' => ServerError.withError(
+            error: 'Sign-in cancelled by user.',
+          ),
+        'sign_in_failed' => ServerError.withError(error: 'Sign-in failed.'),
+        _ => ServerError.withError(
+            error: 'Authentication error: ${error.message}',
+          ),
+      };
+    }
+    return ServerError.withError(
+      error: 'Unexpected authentication error: $error',
+    );
+  }
+
+  // Helper function to map PlatformException to ServerError
+  ServerError _mapPlatformException(PlatformException e) {
+    return switch (e.code) {
+      'sign_in_canceled' => ServerError.withError(
+          error: 'Sign-in cancelled by user.',
+        ),
+      'sign_in_failed' => ServerError.withError(error: 'Sign-in failed.'),
+      'network_error' => ServerError.withError(
+          error: 'Network error. Please check your connection.',
+        ),
+      _ => ServerError.withError(
+          error: 'Google Sign-In error: ${e.message ?? e.code}',
+        ),
+    };
   }
 
   @override
   Future<bool> authLogout() async {
     try {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
 
       try {
         if (!kIsWeb) {

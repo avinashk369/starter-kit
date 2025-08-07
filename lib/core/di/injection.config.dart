@@ -34,36 +34,33 @@ import 'package:moneymemos/widgets/bottom_nav/bottom_navigation_bloc.dart'
     as _i646;
 
 extension GetItInjectableX on _i174.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
+  // initializes the registration of main-scope dependencies inside of GetIt
   _i174.GetIt init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) {
-    final gh = _i526.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioClient = _$DioClient();
     final appModule = _$AppModule();
     gh.factory<_i254.ThemeBloc>(() => _i254.ThemeBloc());
+    gh.factory<_i1061.SplashBloc>(() => _i1061.SplashBloc());
     gh.factory<_i487.WelcomeBloc>(() => _i487.WelcomeBloc());
     gh.factory<_i646.BottomNavigationBloc>(() => _i646.BottomNavigationBloc());
-    gh.factory<_i1061.SplashBloc>(() => _i1061.SplashBloc());
     gh.lazySingleton<_i361.Dio>(() => dioClient.dio);
-    gh.factory<String>(
-      () => appModule.baseUrl,
-      instanceName: 'baseUrl',
-    );
+    gh.factory<String>(() => appModule.baseUrl, instanceName: 'baseUrl');
     gh.factory<_i823.AuthRepository>(() => _i602.AuthRepositoryImpl());
     gh.factory<_i434.AuthBloc>(
-        () => _i434.AuthBloc(authRepository: gh<_i823.AuthRepository>()));
-    gh.factory<_i820.ApiClient>(() => _i820.ApiClient(
-          gh<_i361.Dio>(),
-          baseUrl: gh<String>(instanceName: 'baseUrl'),
-        ));
+      () => _i434.AuthBloc(authRepository: gh<_i823.AuthRepository>()),
+    );
+    gh.factory<_i820.ApiClient>(
+      () => _i820.ApiClient.new(
+        gh<_i361.Dio>(),
+        baseUrl: gh<String>(instanceName: 'baseUrl'),
+      ),
+    );
     gh.factory<_i786.DashboardRepository>(
-        () => _i719.DashboardRepositoryImpl(apiClient: gh<_i820.ApiClient>()));
+      () => _i719.DashboardRepositoryImpl(apiClient: gh<_i820.ApiClient>()),
+    );
     return this;
   }
 }

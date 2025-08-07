@@ -158,7 +158,7 @@ class CustomTheme {
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.surfaceLight,
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -336,7 +336,7 @@ class CustomTheme {
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.surfaceDark,
         elevation: 2,
         shape: RoundedRectangleBorder(

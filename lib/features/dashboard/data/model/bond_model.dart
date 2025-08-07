@@ -2,9 +2,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'bond_model.freezed.dart';
 part 'bond_model.g.dart';
 
-@Freezed(fromJson: false, toJson: false)
-@JsonSerializable(fieldRename: FieldRename.snake)
-class BondModel with _$BondModel {
+@Freezed()
+abstract class BondModel with _$BondModel {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory BondModel({
     String? logo,
     String? isin,

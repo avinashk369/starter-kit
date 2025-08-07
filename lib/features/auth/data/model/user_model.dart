@@ -5,7 +5,10 @@ part 'user_model.g.dart';
 class UserModel {
   String? name;
   String? token;
-  String? id;
+  String? email;
+  String? imageUrl;
+  int? id;
+  UserModel? data;
   UserModel();
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

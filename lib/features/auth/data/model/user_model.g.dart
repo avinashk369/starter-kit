@@ -9,10 +9,18 @@ part of 'user_model.dart';
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel()
   ..name = json['name'] as String?
   ..token = json['token'] as String?
-  ..id = json['id'] as String?;
+  ..email = json['email'] as String?
+  ..imageUrl = json['image_url'] as String?
+  ..id = (json['id'] as num?)?.toInt()
+  ..data = json['data'] == null
+      ? null
+      : UserModel.fromJson(json['data'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-      if (instance.name case final value?) 'name': value,
-      if (instance.token case final value?) 'token': value,
-      if (instance.id case final value?) 'id': value,
-    };
+  'name': ?instance.name,
+  'token': ?instance.token,
+  'email': ?instance.email,
+  'image_url': ?instance.imageUrl,
+  'id': ?instance.id,
+  'data': ?instance.data,
+};

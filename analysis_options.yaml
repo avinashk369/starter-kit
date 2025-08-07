@@ -1,3 +1,21 @@
+analyzer:
+  errors:
+    invalid_annotation_target: ignore
+  
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.gr.dart"
+    - "build/**"
+    - ".dart_tool/**"
+  
+  plugins:
+    - dart_code_metrics
+
+    
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
 # This file configures the analyzer, which statically analyzes Dart code to
 # check for errors, warnings, and lints.
 #
@@ -21,6 +39,53 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    # # Disable rules that conflict with generated code
+    # prefer_const_constructors: false
+    # prefer_const_constructors_in_immutables: false
+    
+    # # Rules for better code quality
+    # always_declare_return_types: true
+    # avoid_empty_else: true
+    # avoid_init_to_null: true
+    # avoid_null_checks_in_equality_operators: true
+    # avoid_return_types_on_setters: true
+    # avoid_shadowing_type_parameters: true
+    # avoid_types_as_parameter_names: true
+    # camel_case_extensions: true
+    # curly_braces_in_flow_control_structures: true
+    # empty_catches: true
+    # empty_constructor_bodies: true
+    # library_names: true
+    # library_prefixes: true
+    # no_duplicate_case_values: true
+    # null_closures: true
+    # omit_local_variable_types: true
+    # prefer_adjacent_string_concatenation: true
+    # prefer_collection_literals: true
+    # prefer_conditional_assignment: true
+    # prefer_contains: true
+    # prefer_equal_for_default_values: true
+    # prefer_final_fields: true
+    # prefer_for_elements_to_map_fromIterable: true
+    # prefer_generic_function_type_aliases: true
+    # prefer_if_null_operators: true
+    # prefer_is_empty: true
+    # prefer_is_not_empty: true
+    # prefer_iterable_whereType: true
+    # prefer_single_quotes: true
+    # prefer_spread_collections: true
+    # recursive_getters: true
+    # slash_for_doc_comments: true
+    # type_init_formals: true
+    # unawaited_futures: true
+    # unnecessary_const: true
+    # unnecessary_new: true
+    # unnecessary_null_in_if_null_operators: true
+    # unnecessary_this: true
+    # unrelated_type_equality_checks: true
+    # use_function_type_syntax_for_parameters: true
+    # use_rethrow_when_possible: true
+    # valid_regexps: true
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
