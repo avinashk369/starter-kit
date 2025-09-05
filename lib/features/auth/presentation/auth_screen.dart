@@ -31,22 +31,24 @@ class AuthScreen extends StatelessWidget {
                 },
               );
             },
-            builder: (context, state) => Builder(builder: (context) {
-              return IPopButton(
-                child: IOutlineButton(
-                  onPressed: state is Loading
-                      ? null
-                      : () {
-                          context.read<AuthBloc>().add(GoogleSignin());
-                        },
-                  text: 'Sign in with Google',
-                  leadingIcon: SvgImage(
-                    source: SvgConst.googleLogo,
-                    sourceType: SvgSource.asset,
+            builder: (context, state) => Builder(
+              builder: (context) {
+                return IPopButton(
+                  child: IOutlineButton(
+                    onPressed: state is Loading
+                        ? null
+                        : () {
+                            context.read<AuthBloc>().add(GoogleSignin());
+                          },
+                    text: 'Sign in with Google',
+                    leadingIcon: SvgImage(
+                      source: SvgConst.googleLogo,
+                      sourceType: SvgSource.asset,
+                    ),
                   ),
-                ),
-              );
-            }),
+                );
+              },
+            ),
           ),
         ),
       ),

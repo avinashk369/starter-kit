@@ -27,11 +27,13 @@ final GoRouter router = GoRouter(
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         // Determine the initial index based on the current route
-        final initialIndex =
-            RouteNames.dashboardRoutes.indexOf(state.uri.toString());
+        final initialIndex = RouteNames.dashboardRoutes.indexOf(
+          state.uri.toString(),
+        );
         return BlocProvider(
-          create: (context) => GetIt.I<BottomNavigationBloc>()
-            ..changeIndex(initialIndex >= 0 ? initialIndex : 0),
+          create: (context) =>
+              GetIt.I<BottomNavigationBloc>()
+                ..changeIndex(initialIndex >= 0 ? initialIndex : 0),
           child: DashboardScreen(navigationShell: navigationShell),
         );
       },
@@ -65,8 +67,6 @@ final GoRouter router = GoRouter(
     ),
   ],
   // Error handling for invalid routes
-  errorBuilder: (context, state) => AppErrorWidget(
-    error: state.error?.message ?? "",
-    isError: true,
-  ),
+  errorBuilder: (context, state) =>
+      AppErrorWidget(error: state.error?.message ?? "", isError: true),
 );

@@ -15,68 +15,35 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<UserModel> googleSignIn() async {
     final googleSignIn = GoogleSignIn.instance;
-    final completer = Completer<UserModel>();
-    StreamSubscription<GoogleSignInAuthenticationEvent>? subscription;
 
     try {
       await googleSignIn.initialize();
+      await googleSignIn.disconnect();
+      final account = await googleSignIn.authenticate();
+      final auth = account.authentication;
+      final credentials = GoogleAuthProvider.credential(idToken: auth.idToken);
 
-      subscription = googleSignIn.authenticationEvents.listen(
-        (event) async {
-          if (event is! GoogleSignInAuthenticationEventSignIn) return;
-
-          try {
-            final idToken = event.user.authentication.idToken;
-            if (idToken == null) {
-              throw ServerError.withError(error: 'ID token is missing.');
-            }
-
-            final credential = GoogleAuthProvider.credential(idToken: idToken);
-            final userCredential =
-                await FirebaseAuth.instance.signInWithCredential(credential);
-            final user = userCredential.user;
-
-            if (user == null) {
-              throw ServerError.withError(error: 'Firebase user is null.');
-            }
-
-            completer.complete(
-              UserModel()
-                ..token = await user.getIdToken() ?? ''
-                ..name = user.displayName ?? ''
-                ..imageUrl = user.photoURL ?? ''
-                ..email = user.email ?? '',
-            );
-          } on FirebaseAuthException catch (e) {
-            throw _mapFirebaseAuthException(e);
-          } catch (e) {
-            throw ServerError.withError(error: 'Firebase sign-in failed: $e');
-          }
-        },
-        onError: (error, stackTrace) {
-          if (!completer.isCompleted) {
-            completer.completeError(_mapAuthenticationError(error), stackTrace);
-          }
-        },
-        onDone: () {
-          if (!completer.isCompleted) {
-            completer.completeError(
-              ServerError.withError(error: 'Sign-in process terminated.'),
-            );
-          }
-        },
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credentials,
       );
+      final user = userCredential.user;
 
-      // Use signInWithGoogle for interactive sign-in instead of lightweight authentication
-      await googleSignIn.attemptLightweightAuthentication();
-
-      return await completer.future;
+      if (user == null) {
+        throw ServerError.withError(error: 'Firebase user is null.');
+      }
+      return UserModel()
+        ..token = await user.getIdToken() ?? ''
+        ..name = user.displayName ?? ''
+        ..imageUrl = user.photoURL ?? ''
+        ..email = user.email ?? '';
     } on PlatformException catch (e) {
       throw _mapPlatformException(e);
+    } on FirebaseAuthException catch (e) {
+      throw _mapFirebaseAuthException(e);
+    } on GoogleSignInException catch (e) {
+      throw _mapAuthenticationError(e);
     } catch (e, _) {
       throw ServerError.withError(error: 'Unexpected error during sign-in: $e');
-    } finally {
-      await subscription?.cancel();
     }
   }
 
@@ -84,14 +51,14 @@ class AuthRepositoryImpl extends AuthRepository {
   ServerError _mapFirebaseAuthException(FirebaseAuthException e) {
     return switch (e.code) {
       'account-exists-with-different-credential' => ServerError.withError(
-          error: 'Account already exists with a different credential.',
-        ),
+        error: 'Account already exists with a different credential.',
+      ),
       'invalid-credential' => ServerError.withError(
-          error: 'Invalid credentials. Please try again.',
-        ),
+        error: 'Invalid credentials. Please try again.',
+      ),
       _ => ServerError.withError(
-          error: 'Firebase authentication error: ${e.message}',
-        ),
+        error: 'Firebase authentication error: ${e.message}',
+      ),
     };
   }
 
@@ -100,12 +67,12 @@ class AuthRepositoryImpl extends AuthRepository {
     if (error is PlatformException) {
       return switch (error.code) {
         'sign_in_canceled' => ServerError.withError(
-            error: 'Sign-in cancelled by user.',
-          ),
+          error: 'Sign-in cancelled by user.',
+        ),
         'sign_in_failed' => ServerError.withError(error: 'Sign-in failed.'),
         _ => ServerError.withError(
-            error: 'Authentication error: ${error.message}',
-          ),
+          error: 'Authentication error: ${error.message}',
+        ),
       };
     }
     return ServerError.withError(
@@ -117,15 +84,15 @@ class AuthRepositoryImpl extends AuthRepository {
   ServerError _mapPlatformException(PlatformException e) {
     return switch (e.code) {
       'sign_in_canceled' => ServerError.withError(
-          error: 'Sign-in cancelled by user.',
-        ),
+        error: 'Sign-in cancelled by user.',
+      ),
       'sign_in_failed' => ServerError.withError(error: 'Sign-in failed.'),
       'network_error' => ServerError.withError(
-          error: 'Network error. Please check your connection.',
-        ),
+        error: 'Network error. Please check your connection.',
+      ),
       _ => ServerError.withError(
-          error: 'Google Sign-In error: ${e.message ?? e.code}',
-        ),
+        error: 'Google Sign-In error: ${e.message ?? e.code}',
+      ),
     };
   }
 
@@ -212,8 +179,8 @@ class AuthRepositoryImpl extends AuthRepository {
         );
       }
 
-      final UserCredential linkedUserCredential =
-          await _auth.currentUser!.linkWithCredential(credential);
+      final UserCredential linkedUserCredential = await _auth.currentUser!
+          .linkWithCredential(credential);
 
       return linkedUserCredential;
     } on FirebaseAuthException catch (e) {
