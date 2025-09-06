@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:moneymemos/core/const/placeholder_const.dart';
 import 'package:moneymemos/core/di/app_manager.dart';
@@ -15,6 +16,7 @@ import 'package:network_monitor_cp/network/network_monitor.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   await Firebase.initializeApp();
   await Future.wait([
     AppManager.init(),
@@ -27,7 +29,7 @@ void main() async {
     FirebasePerformance.instance.setPerformanceCollectionEnabled(kReleaseMode),
   ]);
   ErrorWidget.builder = (error) => AppErrorWidget(
-      error:
-          kReleaseMode ? PlaceholderConst.empty : error.exception.toString());
+    error: kReleaseMode ? PlaceholderConst.empty : error.exception.toString(),
+  );
   runApp(const MoneyMemos());
 }

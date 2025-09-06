@@ -14,11 +14,7 @@ class DashboardScreen extends StatelessWidget with AppCloser {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => GetIt.I<AuthBloc>(),
-        ),
-      ],
+      providers: [BlocProvider(create: (_) => GetIt.I<AuthBloc>())],
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) async {
@@ -36,25 +32,20 @@ class DashboardScreen extends StatelessWidget with AppCloser {
         },
         child: Scaffold(
           extendBody: true,
-          body: Stack(
-            children: [
-              navigationShell,
-              Positioned(
-                bottom: 20,
-                left: 0,
-                right: 0,
-                child: BottomNav(
-                    navItems: [
-                      NavItem(icon: "", selectedIcon: "", label: "Home"),
-                      NavItem(icon: "", selectedIcon: "", label: "Search"),
-                      NavItem(icon: "", selectedIcon: "", label: "Settings"),
-                    ],
-                    onIndexChanged: (index) {
-                      context.read<BottomNavigationBloc>().changeIndex(index);
-                      navigationShell.goBranch(index);
-                    }),
-              ),
-            ],
+          body: navigationShell,
+          backgroundColor: Colors.transparent,
+          bottomNavigationBar: SafeArea(
+            child: BottomNav(
+              navItems: [
+                NavItem(icon: "", selectedIcon: "", label: "Home"),
+                NavItem(icon: "", selectedIcon: "", label: "Search"),
+                NavItem(icon: "", selectedIcon: "", label: "Settings"),
+              ],
+              onIndexChanged: (index) {
+                context.read<BottomNavigationBloc>().changeIndex(index);
+                navigationShell.goBranch(index);
+              },
+            ),
           ),
         ),
       ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:moneymemos/core/const/app_colors.dart';
 import 'package:moneymemos/core/const/pref_const.dart';
 import 'package:moneymemos/core/theme/bloc/theme_bloc.dart';
 import 'package:moneymemos/features/auth/presentation/bloc/auth_bloc.dart';
@@ -36,12 +35,10 @@ class _HomeScreenState extends State<HomeScreen>
   late List<Widget> _childerens;
 
   Widget _item(String title) => ListView.builder(
-        shrinkWrap: true,
-        itemBuilder: (_, __) => ListTile(
-          title: Text(title),
-        ),
-        itemCount: 100,
-      );
+    shrinkWrap: true,
+    itemBuilder: (_, __) => ListTile(title: Text(title)),
+    itemCount: 100,
+  );
   @override
   void initState() {
     _childerens = [
@@ -52,8 +49,11 @@ class _HomeScreenState extends State<HomeScreen>
     ];
 
     /// to dynamically change the tab index using intial index value
-    _tabController =
-        TabController(initialIndex: 0, length: _tabs.length, vsync: this);
+    _tabController = TabController(
+      initialIndex: 0,
+      length: _tabs.length,
+      vsync: this,
+    );
     super.initState();
   }
 
@@ -76,17 +76,21 @@ class _HomeScreenState extends State<HomeScreen>
         body: CustomScrollView(
           slivers: [
             SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Builder(builder: (context) {
+              delegate: SliverChildListDelegate([
+                Builder(
+                  builder: (context) {
                     return BlocListener<AuthBloc, AuthState>(
                       listener: (context, state) {
-                        state.mapOrNull(loggedOut: (value) async {
-                          await PreferenceUtils.putBool(
-                              PrefConst.isLoggedIn, false);
-                          if (!context.mounted) return;
-                          context.goNamed(RouteNames.welcome);
-                        });
+                        state.mapOrNull(
+                          loggedOut: (value) async {
+                            await PreferenceUtils.putBool(
+                              PrefConst.isLoggedIn,
+                              false,
+                            );
+                            if (!context.mounted) return;
+                            context.goNamed(RouteNames.welcome);
+                          },
+                        );
                       },
                       child: Center(
                         child: IElevatedButton(
@@ -98,47 +102,47 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                       ),
                     );
-                  }),
-                  Center(
-                    child: IOutlineButton(
-                      leadingIcon: Icon(Icons.home),
-                      onPressed: () async {
-                        await GetIt.I<DashboardRepository>().loadBonds();
-                      },
-                      text: widget.title,
-                    ),
-                  ),
-                  BlocBuilder<ThemeBloc, ThemeState>(
-                    builder: (context, state) {
-                      return IconButton(
-                        icon: Icon(
-                          state.themeMode == ThemeMode.dark
-                              ? Icons.light_mode
-                              : Icons.dark_mode,
-                        ),
-                        onPressed: () {
-                          context.read<ThemeBloc>().add(
-                                ChangeTheme(isDarkMode: true),
-                              );
-                        },
-                      );
+                  },
+                ),
+                Center(
+                  child: IOutlineButton(
+                    leadingIcon: Icon(Icons.home),
+                    onPressed: () async {
+                      await GetIt.I<DashboardRepository>().loadBonds();
                     },
+                    text: widget.title,
                   ),
-                  SizedBox(
-                    height: 44,
-                    child: ITabBar(
-                      tabController: _tabController,
-                      tabs: _tabs,
-                      onTap: (i) => {
-                        // _marketDetailsController.changeTab(i)
+                ),
+                BlocBuilder<ThemeBloc, ThemeState>(
+                  builder: (context, state) {
+                    return IconButton(
+                      icon: Icon(
+                        state.themeMode == ThemeMode.dark
+                            ? Icons.light_mode
+                            : Icons.dark_mode,
+                      ),
+                      onPressed: () {
+                        context.read<ThemeBloc>().add(
+                          ChangeTheme(isDarkMode: true),
+                        );
                       },
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      isScrollable: true,
-                      tabAlignment: TabAlignment.start,
-                    ).horizontalPadding(16),
-                  ),
-                ],
-              ),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 44,
+                  child: ITabBar(
+                    tabController: _tabController,
+                    tabs: _tabs,
+                    onTap: (i) => {
+                      // _marketDetailsController.changeTab(i)
+                    },
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                  ).horizontalPadding(16),
+                ),
+              ]),
             ),
             SliverFillRemaining(
               child: TabBarView(
