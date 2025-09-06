@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moneymemos/core/const/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,7 +12,7 @@ class CustomTheme {
       primaryColor: AppColors.primaryLightTheme, // Updated to primaryLightTheme
       scaffoldBackgroundColor: Colors.white,
       appBarTheme: const AppBarTheme(
-        color: Colors.white,
+        backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: AppColors.titleActive),
         titleTextStyle: TextStyle(
           color: AppColors.titleActive,
@@ -20,6 +21,12 @@ class CustomTheme {
         ),
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.light,
+        ),
       ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
@@ -95,15 +102,9 @@ class CustomTheme {
           }),
           side: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
-              return BorderSide(
-                color: AppColors.disabledInput,
-                width: 1,
-              );
+              return BorderSide(color: AppColors.disabledInput, width: 1);
             }
-            return BorderSide(
-              color: AppColors.primaryLightTheme,
-              width: 1,
-            );
+            return BorderSide(color: AppColors.primaryLightTheme, width: 1);
           }),
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -112,10 +113,7 @@ class CustomTheme {
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
           textStyle: WidgetStateProperty.all(
-            const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
       ),
@@ -129,10 +127,7 @@ class CustomTheme {
                 .secondaryLightTheme; // Use secondary for TextButton
           }),
           textStyle: WidgetStateProperty.all(
-            const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           padding: WidgetStateProperty.all(
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -161,9 +156,7 @@ class CustomTheme {
       cardTheme: CardThemeData(
         color: AppColors.surfaceLight,
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       dividerTheme: const DividerThemeData(
         color: AppColors.outlineLight,
@@ -174,9 +167,7 @@ class CustomTheme {
         backgroundColor: AppColors.titleActive,
         contentTextStyle: const TextStyle(color: Colors.white),
         actionTextColor: AppColors.primaryLightTheme,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -190,7 +181,7 @@ class CustomTheme {
       fontFamily: GoogleFonts.poppins().fontFamily,
       scaffoldBackgroundColor: AppColors.darkBackground,
       appBarTheme: const AppBarTheme(
-        color: AppColors.darkBackground,
+        backgroundColor: AppColors.darkBackground,
         iconTheme: IconThemeData(color: AppColors.darkTitle),
         titleTextStyle: TextStyle(
           color: AppColors.darkTitle,
@@ -199,6 +190,12 @@ class CustomTheme {
         ),
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark,
+        ),
       ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
@@ -274,15 +271,9 @@ class CustomTheme {
           }),
           side: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
-              return BorderSide(
-                color: AppColors.darkInput,
-                width: 1,
-              );
+              return BorderSide(color: AppColors.darkInput, width: 1);
             }
-            return BorderSide(
-              color: AppColors.primaryDarkTheme,
-              width: 1,
-            );
+            return BorderSide(color: AppColors.primaryDarkTheme, width: 1);
           }),
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -291,10 +282,7 @@ class CustomTheme {
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
           textStyle: WidgetStateProperty.all(
-            const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
       ),
@@ -307,10 +295,7 @@ class CustomTheme {
             return AppColors.secondaryDarkTheme; // Use secondary for TextButton
           }),
           textStyle: WidgetStateProperty.all(
-            const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           padding: WidgetStateProperty.all(
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -339,9 +324,7 @@ class CustomTheme {
       cardTheme: CardThemeData(
         color: AppColors.surfaceDark,
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       dividerTheme: const DividerThemeData(
         color: AppColors.outlineDark,
@@ -352,9 +335,7 @@ class CustomTheme {
         backgroundColor: AppColors.darkTitle,
         contentTextStyle: const TextStyle(color: Colors.white),
         actionTextColor: AppColors.primaryDarkTheme,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         behavior: SnackBarBehavior.floating,
       ),
     );
